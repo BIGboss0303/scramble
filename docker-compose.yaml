@@ -1,4 +1,4 @@
-version: '3.0'
+version: '3.8'
 services:
   nginx:
     image: "nginx:stable-alpine"
@@ -26,7 +26,16 @@ services:
       - env/mysql.env
     volumes:
       - db_data:/var/lib/mysql
-  
+
+  mysql-test:
+    image: mysql:8.0
+    ports:
+      - "3317:3306"
+    env_file:
+      - env/mysql.env
+    volumes:
+      - db_data_test:/var/lib/mysql
+
   composer:
     build: 
       context: dockerfiles
@@ -44,3 +53,4 @@ services:
 
 volumes:
   db_data:
+  db_data_test:
