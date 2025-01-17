@@ -4,7 +4,16 @@ start:
 	docker-compose start nginx
 stop:
 	docker-compose stop
+install:
+	composer install --prefer-dist --no-progress --no-suggest --no-interaction
+	npm install
+	npm run dev
+
+migrate:
+	php artisan migrate --no-interaction --force
+
 test:
-	docker-compose start mysql-test
-	docker-compose run --rm artisan test
-	docker-compose stop mysql-test
+	vendor/bin/phpunit
+
+docker-build:
+	docker build -t laravel-app .
