@@ -46,8 +46,8 @@ jobs:
         run: php artisan migrate --no-interaction --force
 
       # Run tests
-      # - name: Run Tests
-      #   run: vendor/bin/phpunit --testdox
+      - name: Run Tests
+        run: vendor/bin/phpunit --testdox
 
   deploy:
     runs-on: ubuntu-latest
