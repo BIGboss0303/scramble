@@ -24,7 +24,7 @@ jobs:
 
       # Set up PHP
       - name: Setup PHP
-        uses: shivammathur/setup-php@v3
+        uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2' # Use the PHP version your Laravel app requires
           tools: composer, phpunit, mysql
