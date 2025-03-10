@@ -3,23 +3,26 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
+use App\Models\Post;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PostTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * A basic feature test example.
      */
     public function test_index(): void
     {
+        Post::factory(5)->create();
         $response = $this->get('/api/posts');
         $response->assertStatus(200)
             ->assertJson(fn (AssertableJson $json) => 
                 $json->first(fn (AssertableJson $json) => 
                     $json
-                        ->whereType('id', 'integer')
+                        ->whereType('post_id', 'integer')
                         ->whereAllType([
                             'author' => 'string',
                             'content' => 'string',
@@ -32,13 +35,14 @@ class PostTest extends TestCase
     }
     public function test_show(): void
     {
-        $response = $this->get('/api/posts/1');
+        $post = Post::factory()->create();
+        $response = $this->get("/api/posts/$post->id");
         $response
             ->assertStatus(200)
             ->assertJson(fn (AssertableJson $json) =>
                 $json
                     ->whereAllType([
-                        'id' => 'integer',
+                        'post_id' => 'integer',
                         'author' => 'string',
                         'content' => 'string',
                         'last_updated' => 'string'
@@ -55,31 +59,31 @@ class PostTest extends TestCase
         $response
             ->assertStatus(201)
             ->assertJson([
-                'id' => 11,
+                'post_id' => 1,
                 'author' => 'Joe Bidden',
                 'content' => 'hello there'
             ]);
     }
 
     public function test_update(){
+        $post = Post::factory()->create();
         $response = $this->putJson('/api/posts',[
-            'id' => 11,
+            'post_id' => $post->id,
             'author' => 'Donald Trump',
             'content' => 'Wassup my dawg'
         ]);
         $response
             ->assertStatus(200)
-            ->assertJson([
-                'id' => 11,
+            ->assertJsonFragment([
+                'post_id' => 1,
                 'author' => 'Donald Trump',
                 'content' => 'Wassup my dawg'
             ]);
     }
 
     public function test_destroy(){
-        $response = $this->deleteJson('api/posts',[
-            'id' => 11,
-        ]);
+        $post = Post::factory()->create();
+        $response = $this->deleteJson("api/posts/$post->id");
         $response->assertStatus(204);
     }
 }

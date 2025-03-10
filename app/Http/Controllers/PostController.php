@@ -41,20 +41,20 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request)
     {
-        $post = Post::find($request->id);
+        
+        $post = Post::find($request->post_id);
         $post->update($request->validated());
+        $post->fresh();
+        return response()->json(new PostResource($post));
 
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($post_id)
+    public function destroy(Post $post)
     {
-        $post = Post::find($post_id);
-        if(!is_null($post)){
-            $post->delete();
-        }
+        $post->delete();
         return response(null,204);
     }
 }
