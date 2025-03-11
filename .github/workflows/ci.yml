@@ -30,8 +30,8 @@ jobs:
         touch database/database.sqlite
     - name: Verify Test Directory Structure
       run: |
-        # ls -la tests/Unit
-        # ls -la tests/Feature
+        ls -la tests/Unit
+        ls -la tests/Feature
         cd tests
         ls -la
     - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
