@@ -15,7 +15,7 @@ class UpdatePostRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'id' => 'required|exists:posts',
+            'post_id' => 'required|exists:posts,id',
             'author' => 'required|string|max:255',
             'content' => 'required|string',
         ];
