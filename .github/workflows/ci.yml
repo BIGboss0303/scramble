@@ -32,6 +32,7 @@ jobs:
       run: |
         # ls -la tests/Unit
         # ls -la tests/Feature
+        cd tests
         ls -la
     - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
       env:
