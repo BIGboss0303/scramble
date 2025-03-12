@@ -2,11 +2,11 @@ name: CD Pipeline
 
 on:
   workflow_run:
-    workflows: ["CI Pipeline"]  # Name of the CI workflow
+    workflows: ["CI Pipeline"]
     types:
       - completed
     branches:
-      - master  # Only trigger on pushes to the `master` branch
+      - main 
 
 jobs:
   ftp-deploy:
